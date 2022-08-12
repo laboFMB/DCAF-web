@@ -1,0 +1,14 @@
+.vagrant/
+coverage/
+.DS_Store
+dist/
+*.log
+node_modules/
+ubuntu*
+yarn-error.log
+*.sif
+.next/
+cypress/downloads/
+cypress/screenshots/
+cypress/videos/
+tmp/

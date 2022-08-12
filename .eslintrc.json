@@ -1,0 +1,43 @@
+{
+  "env": {
+    "node": true,
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "next/core-web-vitals",
+    "plugin:testing-library/react",
+    "plugin:jest-dom/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["react", "testing-library", "jest-dom", "@typescript-eslint"],
+  "rules": {
+    "no-unused-vars": 0,
+    "@typescript-eslint/no-unused-vars": [
+      2,
+      { "args": "all", "argsIgnorePattern": "(^_|^e$)" }
+    ]
+  },
+  "overrides": [
+    {
+      // 3) Now we enable eslint-plugin-testing-library rules or preset only for matching testing files!
+      "files": [
+        "**/__tests__/**/*.[jt]s?(x)",
+        "**/?(*.)+(spec|test).[jt]s?(x)"
+      ],
+      "extends": ["plugin:testing-library/react"]
+    }
+  ]
+}

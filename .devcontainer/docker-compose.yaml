@@ -1,0 +1,15 @@
+version: '3.2'
+name: "rbac_dev"
+services:
+  main:
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    volumes:
+      - ../:/app/
+    dns: 8.8.8.8
+    dns_opt: [8.8.8.8]

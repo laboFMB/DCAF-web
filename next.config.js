@@ -7,21 +7,13 @@ const withMDX = require('@next/mdx')({
 })
 
 const nextConfig = {
+  basePath: '/rbac-web',
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   ...(process.env.STANDALONE && {
     experimental: {
       outputStandalone: 'true'
     }
-  }),
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/home',
-        permanent: true
-      }
-    ]
-  }
+  })
 }
 
 module.exports = withBundleAnalyzer(withMDX(nextConfig))

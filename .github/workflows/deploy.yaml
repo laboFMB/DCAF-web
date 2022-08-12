@@ -1,0 +1,36 @@
+name: Deploy to GitHub Pages
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get files
+        uses: actions/checkout@v3
+
+      - name: Use Node.js 
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x 
+          cache: 'yarn'
+
+      - name: Export to static html 
+        run: |
+          yarn install --frozen-lockfile
+          yarn deploy
+
+      - name: Add .nojekyll file
+        run: touch ./out/.nojekyll
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.4.0
+        with:
+          branch: gh-pages
+          folder: out

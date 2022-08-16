@@ -3,6 +3,7 @@ import { SectionBar } from 'components/SectionBar'
 import { NavBar } from 'components/NavBar'
 import { ProteinSelect } from 'components/ProteinSelect'
 import { useQuery } from '@tanstack/react-query'
+import { DataDisplay } from 'components/DataDisplay'
 
 const fetchProteinList = async () => {
   const url =
@@ -36,12 +37,17 @@ export const DataPage = () => {
     return (
       <div style={{ display: 'flex' }}>
         <NavBar />
-        <ProteinSelect
-          options={data}
-          value={protein}
-          onChange={handleProteinChange}
-        />
-        <SectionBar value={section} onChange={handleSectionChange} />
+        <div style={{ display: 'block' }}>
+          <div style={{ display: 'flex' }}>
+            <ProteinSelect
+              options={data}
+              value={protein}
+              onChange={handleProteinChange}
+            />
+            <SectionBar value={section} onChange={handleSectionChange} />
+          </div>
+          <DataDisplay section={section} protein={protein} />
+        </div>
       </div>
     )
   }

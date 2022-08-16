@@ -7,6 +7,7 @@ const withMDX = require('@next/mdx')({
 })
 
 const nextConfig = {
+  imagesUnoptimized: true,
   basePath: '/DCAF-web',
   assetPrefix: '/DCAF-web',
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],

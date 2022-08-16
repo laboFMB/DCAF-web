@@ -3,11 +3,12 @@ import Box from '@mui/material/Box'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 
-export const SectionBar = () => {
+export const SectionBar = (onChange) => {
   const [value, setValue] = useState(0)
 
-  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
+    onChange(event, newValue)
   }
 
   return (

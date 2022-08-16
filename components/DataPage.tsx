@@ -1,5 +1,11 @@
 import { SectionBar } from 'components/SectionBar'
+import { NavBar } from 'components/NavBar'
 
 export const DataPage = () => {
-  return <SectionBar />
+  return (
+    <div style={{ display: 'flex' }}>
+      <NavBar />
+      <SectionBar />
+    </div>
+  )
 }

@@ -7,7 +7,7 @@ const withMDX = require('@next/mdx')({
 })
 
 const nextConfig = {
-  basePath: '/rbac-web',
+  basePath: '/dcaf-web',
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   ...(process.env.STANDALONE && {
     experimental: {

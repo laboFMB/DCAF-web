@@ -12,3 +12,4 @@ cypress/downloads/
 cypress/screenshots/
 cypress/videos/
 tmp/
+out/

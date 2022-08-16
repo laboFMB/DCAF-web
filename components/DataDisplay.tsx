@@ -1,5 +1,4 @@
 import styled from '@emotion/styled'
-import Image from 'next/image'
 
 const DataDisplayDiv = styled.div`
   display: grid;
@@ -29,8 +28,8 @@ export const DataDisplay = ({ section, protein }) => {
     const image2Url = `https://raw.githubusercontent.com/laboFMB/DCAF-data/main/data/${protein}/WB/${protein}.jpg`
     return (
       <DataDisplayDiv>
-        <Image alt="Western Blot" src={image2Url} height="500px" />
-        <Image alt="Immunofluorescence" src={image1Url} height="500px" />
+        <img alt="Western Blot" src={image2Url} height="500px" />
+        <img alt="Immunofluorescence" src={image1Url} height="500px" />
       </DataDisplayDiv>
     )
   }

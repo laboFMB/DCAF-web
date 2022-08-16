@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { SectionBar } from 'components/SectionBar'
 import { NavBar } from 'components/NavBar'
 import { ProteinSelect } from 'components/ProteinSelect'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 
 const fetchProteinList = async () => {
   const url =
@@ -15,15 +15,16 @@ const fetchProteinList = async () => {
 }
 
 export const DataPage = () => {
-  const queryClient = useQueryClient()
   const { status, data } = useQuery(['proteins'], fetchProteinList)
   const [protein, setProtein] = useState(data?.[0] ?? '')
-  const [section, setSection] = useState('')
+  const [section, setSection] = useState(0)
 
   const handleProteinChange = (event) => {
     setProtein(event.target.value)
   }
-  const handleSectionChange = (event, newValue) => {}
+  const handleSectionChange = (_, newValue) => {
+    setSection(newValue)
+  }
   if (status === 'loading') {
     return (
       <>
@@ -40,7 +41,7 @@ export const DataPage = () => {
           value={protein}
           onChange={handleProteinChange}
         />
-        <SectionBar onChange={handleSectionChange} />
+        <SectionBar value={section} onChange={handleSectionChange} />
       </div>
     )
   }

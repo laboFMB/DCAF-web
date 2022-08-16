@@ -1,13 +1,9 @@
-import React, { useState } from 'react'
 import Box from '@mui/material/Box'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 
-export const SectionBar = (onChange) => {
-  const [value, setValue] = useState(0)
-
+export const SectionBar = ({ value, onChange }) => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue)
     onChange(event, newValue)
   }
 

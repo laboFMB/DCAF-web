@@ -27,7 +27,7 @@ jobs:
           yarn deploy
 
       - name: Add .nojekyll file
-        run: touch ./nojekyll
+        run: touch ./out/.nojekyll
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4

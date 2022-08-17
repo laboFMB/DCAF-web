@@ -17,7 +17,7 @@ const fetchProteinList = async () => {
 
 export const DataPage = () => {
   const { status, data } = useQuery(['proteins'], fetchProteinList)
-  const [protein, setProtein] = useState(data?.[0] ?? '')
+  const [protein, setProtein] = useState('AMBRA1')
   const [section, setSection] = useState(0)
 
   const handleProteinChange = (event) => {

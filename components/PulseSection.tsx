@@ -17,8 +17,7 @@ export const PulseSection = ({ protein }) => {
   } else {
     return (
       <>
-        <PulseTable />
-        <span>{data}</span>
+        <PulseTable data={data} />
         <PulseGraph />
       </>
     )

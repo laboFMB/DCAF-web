@@ -17,8 +17,7 @@ export const SaintSection = ({ protein }) => {
   } else {
     return (
       <>
-        <SaintTable />
-        <span>{data}</span>
+        <SaintTable data={data} />
         <SaintGraph />
       </>
     )

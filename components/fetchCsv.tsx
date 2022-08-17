@@ -1,7 +1,7 @@
 import Papa from 'papaparse'
 
 export const fetchCsv = async (url) => {
-  let csv = new Promise((resolve, reject) =>
+  const csv = new Promise((resolve, reject) =>
     Papa.parse(url, {
       download: true,
       complete: (results) => {

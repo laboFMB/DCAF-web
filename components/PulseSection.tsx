@@ -11,14 +11,13 @@ const fetchPulseFile = async (protein: string) => {
 
 export const PulseSection = ({ protein }) => {
   const { status, data } = useQuery([protein], () => fetchPulseFile(protein))
-  console.log(data)
   if (status === 'loading') {
     return <span>loading...</span>
   } else {
     return (
       <>
         <PulseTable data={data} />
-        <PulseGraph />
+        <PulseGraph data={data} />
       </>
     )
   }

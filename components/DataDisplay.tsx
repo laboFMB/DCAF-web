@@ -4,7 +4,7 @@ import { PulseSection } from 'components/PulseSection'
 import { ImgSection } from 'components/ImgSection'
 
 const DataDisplayDiv = styled.div`
-  display: grid;
+  display: block;
   grid-template-columns: 350px 350px;
   justify-items: center;
 `

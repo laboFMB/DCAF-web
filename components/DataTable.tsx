@@ -26,10 +26,10 @@ export const DataTable = ({ rows, columns, width = 330 }) => {
 
   function rowCells(rowDefinition) {
     return (
-      <TableRow key={rowDefinition.id}>
+      <TableRow key={rowDefinition['']}>
         {columns.map((column) => {
           return (
-            <TableCell padding="none" key={column.field}>
+            <TableCell padding="none" key={column.field + rowDefinition['']}>
               {cellContent(rowDefinition, column)}
             </TableCell>
           )

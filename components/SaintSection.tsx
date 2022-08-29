@@ -11,14 +11,13 @@ const fetchSaintFile = async (protein: string) => {
 
 export const SaintSection = ({ protein }) => {
   const { status, data } = useQuery([protein], () => fetchSaintFile(protein))
-  console.log(data)
   if (status === 'loading') {
     return <span>loading...</span>
   } else {
     return (
       <>
         <SaintTable data={data} />
-        <SaintGraph />
+        <SaintGraph data={data} />
       </>
     )
   }

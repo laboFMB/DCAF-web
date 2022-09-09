@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { PulseTable } from 'components/PulseTable'
 import { PulseGraph } from 'components/PulseGraph'
@@ -11,6 +12,9 @@ const fetchPulseFile = async (protein: string) => {
 
 export const PulseSection = ({ protein }) => {
   const { status, data } = useQuery([protein], () => fetchPulseFile(protein))
+  const [maximumPValue, setMaximumPValue] = useState(10000)
+  const [minimumLog2Fold, setMinimumLog2Fold] = useState(-10000)
+  const filtered_data = false
   if (status === 'loading') {
     return <span>loading...</span>
   } else {

@@ -1,5 +1,14 @@
-import { Scatter, ScatterChart, XAxis, YAxis, ZAxis, Tooltip } from 'recharts'
+import {
+  Scatter,
+  ReferenceLine,
+  ScatterChart,
+  XAxis,
+  YAxis,
+  ZAxis,
+  Tooltip
+} from 'recharts'
 import { GraphTooltip } from 'components/GraphTooltip'
+import { percentile } from 'utils/percentile'
 
 export const SaintGraph = ({ data }) => {
   const rows = data.slice(1).map((rowData: string[]) => {
@@ -40,6 +49,16 @@ export const SaintGraph = ({ data }) => {
       />
       <ZAxis dataKey="z" range={[0, 30]} />
       <Scatter name="test" data={rows.slice()} fill="#042fcc" />
+      <ReferenceLine
+        x={percentile(rows.map((row) => row.x))}
+        stroke="grey"
+        strokeDasharray="3 3"
+      />
+      <ReferenceLine
+        y={percentile(rows.map((row) => row.y))}
+        stroke="grey"
+        strokeDasharray="3 3"
+      />
       <Tooltip content={<GraphTooltip />} cursor={{ strokeDasharray: '3 3' }} />
     </ScatterChart>
   )

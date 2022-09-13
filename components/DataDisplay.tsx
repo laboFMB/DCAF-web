@@ -4,9 +4,11 @@ import { PulseSection } from 'components/PulseSection'
 import { ImgSection } from 'components/ImgSection'
 
 const DataDisplayDiv = styled.div`
-  display: block;
-  grid-template-columns: 350px 350px;
-  justify-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 30px;
+  gap: 20px;
 `
 
 export const DataDisplay = ({ section, protein }) => {

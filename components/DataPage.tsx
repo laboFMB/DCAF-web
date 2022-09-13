@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import Box from '@mui/material/Box'
 import { SectionBar } from 'components/SectionBar'
 import { NavBar } from 'components/NavBar'
 import { ProteinSelect } from 'components/ProteinSelect'
 import { useQuery } from '@tanstack/react-query'
 import { DataDisplay } from 'components/DataDisplay'
+import Paper from '@mui/material/Paper'
 
 const fetchProteinList = async () => {
   const url =
@@ -12,7 +14,8 @@ const fetchProteinList = async () => {
     method: 'get'
   })
   const text = await response.text()
-  return text.split(/\r?\n/)
+  const lines = text.split(/\r?\n/).filter((line) => line)
+  return lines
 }
 
 export const DataPage = () => {
@@ -37,17 +40,19 @@ export const DataPage = () => {
     return (
       <div style={{ display: 'flex' }}>
         <NavBar />
-        <div style={{ display: 'block' }}>
-          <div style={{ display: 'flex' }}>
-            <ProteinSelect
-              options={data}
-              value={protein}
-              onChange={handleProteinChange}
-            />
-            <SectionBar value={section} onChange={handleSectionChange} />
+        <Paper elevation={20} sx={{ maxWidth: '1300px' }}>
+          <div style={{ display: 'block' }}>
+            <Box sx={{ display: 'flex', borderBottom: '1px solid grey' }}>
+              <ProteinSelect
+                options={data}
+                value={protein}
+                onChange={handleProteinChange}
+              />
+              <SectionBar value={section} onChange={handleSectionChange} />
+            </Box>
+            <DataDisplay section={section} protein={protein} />
           </div>
-          <DataDisplay section={section} protein={protein} />
-        </div>
+        </Paper>
       </div>
     )
   }

@@ -5,7 +5,7 @@ export const HomePage = () => {
   return (
     <div style={{ display: 'flex' }}>
       <NavBar />
-      <div style={{ display: 'block', marginLeft: '20px' }}>
+      <div style={{ maxWidth: '800px', display: 'block', marginLeft: '20px' }}>
         <h3>
           Identification of protein substrates of the DDB1 and CUL4-associated
           factors (DCAFs)

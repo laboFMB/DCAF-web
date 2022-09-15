@@ -22,14 +22,18 @@ export const PulseTable = ({ data, protein }) => {
         if (data[0][i] === '') {
           data[0][i] = 'id'
         }
-        row[data[0][i]] = rowData[i]
+        if (data[0][i] === 'P-value') {
+          row[data[0][i]] = parseFloat(rowData[i]).toExponential()
+        } else {
+          row[data[0][i]] = rowData[i]
+        }
       }
       return row
     })
     .filter(
       (row) =>
-        row['P-value'] < parseFloat(maxPValue === '' ? '100000' : maxPValue) &&
-        row['log2(Fold change)'] >
+        row['P-value'] <= parseFloat(maxPValue === '' ? '100000' : maxPValue) &&
+        row['log2(Fold change)'] >=
           parseFloat(minLog2FC === '' ? '-10000' : minLog2FC)
     )
 

@@ -28,9 +28,9 @@ export const SaintTable = ({ data, protein }) => {
     })
     .filter(
       (row) =>
-        row['Saint Score'] >
+        row['Saint Score'] >=
           parseFloat(minSaintScore === '' ? '-100000' : minSaintScore) &&
-        row['log2FC'] > parseFloat(minLog2FC === '' ? '-10000' : minLog2FC)
+        row['log2FC'] >= parseFloat(minLog2FC === '' ? '-10000' : minLog2FC)
     )
   const columns = data[0].map((header) => {
     return {

@@ -27,7 +27,7 @@ export const PulseGraph = ({ data }) => {
       height={450}
       margin={{ top: 50, right: 20, bottom: 20, left: 10 }}
     >
-      <Scatter name="test" data={filteredRows} fill="#042fcc" />
+      <Scatter name="test" data={filteredRows} fill="#04AA6D" />
       <LabelList dataKey="name" />
       <XAxis
         label={{

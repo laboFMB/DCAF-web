@@ -48,7 +48,7 @@ export const SaintGraph = ({ data }) => {
         name="saint score"
       />
       <ZAxis dataKey="z" range={[0, 30]} />
-      <Scatter name="test" data={rows.slice()} fill="#042fcc" />
+      <Scatter name="test" data={rows.slice()} fill="#04AA6D" />
       <ReferenceLine
         x={percentile(rows.map((row) => row.x))}
         stroke="grey"

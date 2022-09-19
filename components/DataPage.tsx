@@ -6,6 +6,7 @@ import { ProteinSelect } from 'components/ProteinSelect'
 import { useQuery } from '@tanstack/react-query'
 import { DataDisplay } from 'components/DataDisplay'
 import Paper from '@mui/material/Paper'
+import { createTheme, ThemeProvider, styled } from '@mui/material/styles'
 
 const fetchProteinList = async () => {
   const url =
@@ -17,6 +18,17 @@ const fetchProteinList = async () => {
   const lines = text.split(/\r?\n/).filter((line) => line)
   return lines
 }
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#04AA6D'
+    },
+    secondary: {
+      main: '#04AA6D'
+    }
+  }
+})
 
 export const DataPage = () => {
   const { status, data } = useQuery(['proteins'], fetchProteinList)
@@ -38,22 +50,24 @@ export const DataPage = () => {
     )
   } else {
     return (
-      <div style={{ display: 'flex' }}>
-        <NavBar />
-        <Paper elevation={20} sx={{ maxWidth: '1300px' }}>
-          <div style={{ display: 'block' }}>
-            <Box sx={{ display: 'flex', borderBottom: '1px solid grey' }}>
-              <ProteinSelect
-                options={data}
-                value={protein}
-                onChange={handleProteinChange}
-              />
-              <SectionBar value={section} onChange={handleSectionChange} />
-            </Box>
-            <DataDisplay section={section} protein={protein} />
-          </div>
-        </Paper>
-      </div>
+      <ThemeProvider theme={theme}>
+        <div style={{ display: 'flex' }}>
+          <NavBar />
+          <Paper elevation={20} sx={{ maxWidth: '1300px' }}>
+            <div style={{ display: 'block' }}>
+              <Box sx={{ display: 'flex', borderBottom: '1px solid grey' }}>
+                <ProteinSelect
+                  options={data}
+                  value={protein}
+                  onChange={handleProteinChange}
+                />
+                <SectionBar value={section} onChange={handleSectionChange} />
+              </Box>
+              <DataDisplay section={section} protein={protein} />
+            </div>
+          </Paper>
+        </div>
+      </ThemeProvider>
     )
   }
 }

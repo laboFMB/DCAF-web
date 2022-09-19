@@ -7,15 +7,10 @@ export const SectionBar = ({ value, onChange }) => {
   }
 
   return (
-    <Tabs
-      disableRipple
-      variant="fullWidth"
-      value={value}
-      onChange={handleChange}
-    >
-      <Tab label="Proximity Labeling" />
-      <Tab label="Pulse Silac" />
-      <Tab label="Localisation and Expression" />
+    <Tabs variant="fullWidth" value={value} onChange={handleChange}>
+      <Tab disableRipple label="Proximity Labeling" />
+      <Tab disableRipple label="Pulse Silac" />
+      <Tab disableRipple label="Localisation and Expression" />
     </Tabs>
   )
 }

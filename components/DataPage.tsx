@@ -6,7 +6,7 @@ import { ProteinSelect } from 'components/ProteinSelect'
 import { useQuery } from '@tanstack/react-query'
 import { DataDisplay } from 'components/DataDisplay'
 import Paper from '@mui/material/Paper'
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 const fetchProteinList = async () => {
   const url =

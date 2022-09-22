@@ -32,6 +32,7 @@ export const SaintGraph = ({ data }) => {
           textAnchor: 'middle'
         }}
         dataKey="x"
+        domain={[dataMin=>Math.floor(dataMin), dataMax=>Math.ceil(dataMax)]}
         type="number"
         name="log2FC"
       />

@@ -36,6 +36,7 @@ export const PulseGraph = ({ data }) => {
           textAnchor: 'middle'
         }}
         dataKey="x"
+        domain={[dataMin=>Math.floor(dataMin), dataMax=>Math.ceil(dataMax)]}
         type="number"
         name="log2FC"
       />
@@ -46,6 +47,7 @@ export const PulseGraph = ({ data }) => {
           position: 'insideLeft',
           textAnchor: 'middle'
         }}
+        domain={[dataMin=>Math.floor(dataMin), dataMax=>Math.ceil(dataMax)]}
         dataKey="y"
         name="-log10pvalue"
       />

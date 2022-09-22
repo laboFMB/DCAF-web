@@ -1,5 +1,6 @@
 import {
   Scatter,
+  Legend,
   ReferenceLine,
   ScatterChart,
   XAxis,
@@ -10,15 +11,39 @@ import {
 import { GraphTooltip } from 'components/GraphTooltip'
 import { percentile } from 'utils/percentile'
 
-export const SaintGraph = ({ data }) => {
-  const rows = data.slice(1).map((rowData: string[]) => {
+const makeInfo = (rowData) => {
     return {
       name: rowData[2],
       x: parseFloat(rowData[4]),
       y: parseFloat(rowData[3]),
       z: 1
     }
-  })
+}
+
+export const SaintGraph = ({ data, protein, minSaintScore, minLog2FC}) => {
+  const rows = []
+  const filteredRows = []
+  const otherRows = []
+  const DDB1 = []
+  const Cul4 = []
+  const DCAF = []
+
+  for (const rowData of data.slice(1)) {
+      if (rowData[2] === "CUL4A" || rowData[2] === "CUL4B") {
+          Cul4.push(makeInfo(rowData))
+      } else if (rowData[2] === "DDB1") {
+          DDB1.push(makeInfo(rowData))
+      } else if (rowData[2] === protein) {
+          DCAF.push(makeInfo(rowData))
+      } else if (parseFloat(rowData[3]) >= minSaintScore && parseFloat(rowData[4]) >= minLog2FC) {
+          filteredRows.push(makeInfo(rowData))
+          rows.push(makeInfo(rowData))
+      } else {
+          otherRows.push(makeInfo(rowData))
+          rows.push(makeInfo(rowData))
+      }
+  }
+
   return (
     <ScatterChart
       width={600}
@@ -49,7 +74,11 @@ export const SaintGraph = ({ data }) => {
         name="saint score"
       />
       <ZAxis dataKey="z" range={[0, 30]} />
-      <Scatter name="test" data={rows.slice()} fill="#04AA6D" />
+      <Scatter name="Other" data={filteredRows} fill="#04AA6D" />
+      <Scatter name="filtered" data={otherRows} fill="#333333" />
+      <Scatter name="Cul4A & Cul4B" data={Cul4} fill="#FF0000" />
+      <Scatter name="DDB1" data={DDB1} fill="#0000FF" />
+      <Scatter name="DCAF" data={DCAF} fill="#9900CC" />
       <ReferenceLine
         x={percentile(rows.map((row) => row.x))}
         stroke="grey"
@@ -61,6 +90,7 @@ export const SaintGraph = ({ data }) => {
         strokeDasharray="3 3"
       />
       <Tooltip content={<GraphTooltip />} cursor={{ strokeDasharray: '3 3' }} />
+      <Legend verticalAlign="top" height={36} payload={[{value:"DCAF",color:"#9900CC"},{value:"CUL4A & CUL4B",color:"#FF0000"},{value:"DDB1", color:"#0000FF", id:"DDB1"}]}/>
     </ScatterChart>
   )
 }

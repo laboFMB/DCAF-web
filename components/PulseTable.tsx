@@ -1,18 +1,11 @@
 import Box from '@mui/material/Box'
-import Input from '@mui/material/Input'
-import InputLabel from '@mui/material/InputLabel'
-import FormControl from '@mui/material/FormControl'
 import Button from '@mui/material/Button'
 import { DataGrid } from '@mui/x-data-grid'
-import { useState } from 'react'
 import { download } from 'utils/download'
 import { generateCsv } from 'utils/generateCsv'
 import { capitalize } from 'utils/capitalize'
-import { isValidFloat } from 'utils/isValidFloat'
 
-export const PulseTable = ({ data, protein }) => {
-  const [maxPValue, setMaxPValue] = useState('1.3')
-  const [minLog2FC, setMinLog2FC] = useState('1')
+export const PulseTable = ({ data, protein, maxPValue, minLog2FC }) => {
 
   const rows = data
     .slice(1)
@@ -51,27 +44,7 @@ export const PulseTable = ({ data, protein }) => {
     }
   })
   return (
-    <div>
-      <div style={{ display: 'flex' }}>
-        <FormControl>
-          <InputLabel>Maximum P-value</InputLabel>
-          <Input
-            sx={{ width: '200px' }}
-            value={maxPValue}
-            onChange={(event) => setMaxPValue(event.target.value)}
-            error={!isValidFloat(maxPValue) && maxPValue !== ''}
-          />
-        </FormControl>
-        <FormControl>
-          <InputLabel>Minimum log2 fold change</InputLabel>
-          <Input
-            sx={{ width: '250px' }}
-            value={minLog2FC}
-            onChange={(event) => setMinLog2FC(event.target.value)}
-            error={!isValidFloat(minLog2FC) && minLog2FC !== ''}
-          />
-        </FormControl>
-      </div>
+    <>
       <Box
         sx={{
           height: 400,
@@ -95,6 +68,6 @@ export const PulseTable = ({ data, protein }) => {
       >
         Export
       </Button>
-    </div>
+    </>
   )
 }

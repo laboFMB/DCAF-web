@@ -1,18 +1,11 @@
 import Box from '@mui/material/Box'
-import Input from '@mui/material/Input'
-import InputLabel from '@mui/material/InputLabel'
-import FormControl from '@mui/material/FormControl'
 import Button from '@mui/material/Button'
-import { useState } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import { download } from 'utils/download'
 import { generateCsv } from 'utils/generateCsv'
 import { capitalize } from 'utils/capitalize'
-import { isValidFloat } from 'utils/isValidFloat'
 
-export const SaintTable = ({ data, protein }) => {
-  const [minSaintScore, SetMinSaintScore] = useState('0.7')
-  const [minLog2FC, setMinLog2FC] = useState('')
+export const SaintTable = ({ data, protein, minSaintScore, minLog2FC }) => {
 
   const rows = data
     .slice(1)
@@ -48,27 +41,7 @@ export const SaintTable = ({ data, protein }) => {
     }
   })
   return (
-    <div>
-      <div style={{ display: 'flex' }}>
-        <FormControl>
-          <InputLabel>Minimum Saint Score</InputLabel>
-          <Input
-            sx={{ width: '200px' }}
-            value={minSaintScore}
-            onChange={(event) => SetMinSaintScore(event.target.value)}
-            error={!isValidFloat(minSaintScore) && minSaintScore !== ''}
-          />
-        </FormControl>
-        <FormControl>
-          <InputLabel>Minimum log2 fold change</InputLabel>
-          <Input
-            sx={{ width: '250px' }}
-            value={minLog2FC}
-            onChange={(event) => setMinLog2FC(event.target.value)}
-            error={!isValidFloat(minLog2FC) && minLog2FC !== ''}
-          />
-        </FormControl>
-      </div>
+    <>
       <Box
         sx={{
           height: 400,
@@ -92,6 +65,6 @@ export const SaintTable = ({ data, protein }) => {
       >
         Export
       </Button>
-    </div>
+    </>
   )
 }

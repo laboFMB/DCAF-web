@@ -11,23 +11,41 @@ import {
 import { GraphTooltip } from 'components/GraphTooltip'
 import { percentile } from 'utils/percentile'
 
-export const PulseGraph = ({ data }) => {
-  const rows = data.slice(1).map((rowData: string[]) => {
+const makeInfo = (rowData) => {
     return {
       name: rowData[1],
       x: parseFloat(rowData[2]),
       y: -1 * Math.log10(parseFloat(rowData[3])),
       z: 1
     }
-  })
-  const filteredRows = rows.filter((row) => row.y !== Infinity)
+}
+
+export const PulseGraph = ({ data, maxPValue, minLog2FC }) => {
+  const rows = []
+  const filteredRows = []
+  const otherRows = []
+
+  for (const rowData of data.slice(1)) {
+      if (-1 * Math.log10(parseFloat(rowData[3])) <= maxPValue && parseFloat(rowData[2]) >= minLog2FC) {
+          filteredRows.push(makeInfo(rowData))
+          rows.push(makeInfo(rowData))
+      } else {
+          otherRows.push(makeInfo(rowData))
+          rows.push(makeInfo(rowData))
+      }
+  }
+
+  console.log(rows)
+  console.log(filteredRows)
+  console.log(otherRows)
   return (
     <ScatterChart
       width={600}
       height={450}
       margin={{ top: 50, right: 20, bottom: 20, left: 10 }}
     >
-      <Scatter name="test" data={filteredRows} fill="#04AA6D" />
+      <Scatter name="Other" data={filteredRows} fill="#04AA6D" />
+      <Scatter name="filtered" data={otherRows} fill="#333333" />
       <LabelList dataKey="name" />
       <XAxis
         label={{

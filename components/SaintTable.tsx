@@ -22,7 +22,11 @@ export const SaintTable = ({ data, protein }) => {
         if (data[0][i] === '') {
           data[0][i] = 'id'
         }
-        row[data[0][i]] = rowData[i]
+        if (data[0][i] === 'log2FC') {
+          row[data[0][i]] = parseFloat(rowData[i]).toFixed(3)
+        } else {
+          row[data[0][i]] = rowData[i]
+        }
       }
       return row
     })

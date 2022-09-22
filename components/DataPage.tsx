@@ -30,6 +30,9 @@ const theme = createTheme({
   }
 })
 
+
+
+
 export const DataPage = () => {
   const { status, data } = useQuery(['proteins'], fetchProteinList)
   const [protein, setProtein] = useState('AMBRA1')

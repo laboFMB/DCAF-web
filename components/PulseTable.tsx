@@ -11,8 +11,8 @@ import { capitalize } from 'utils/capitalize'
 import { isValidFloat } from 'utils/isValidFloat'
 
 export const PulseTable = ({ data, protein }) => {
-  const [maxPValue, setMaxPValue] = useState('')
-  const [minLog2FC, setMinLog2FC] = useState('')
+  const [maxPValue, setMaxPValue] = useState('1.3')
+  const [minLog2FC, setMinLog2FC] = useState('1')
 
   const rows = data
     .slice(1)

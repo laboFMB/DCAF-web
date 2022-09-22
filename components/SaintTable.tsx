@@ -11,7 +11,7 @@ import { capitalize } from 'utils/capitalize'
 import { isValidFloat } from 'utils/isValidFloat'
 
 export const SaintTable = ({ data, protein }) => {
-  const [minSaintScore, SetMinSaintScore] = useState('')
+  const [minSaintScore, SetMinSaintScore] = useState('0.7')
   const [minLog2FC, setMinLog2FC] = useState('')
 
   const rows = data

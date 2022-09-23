@@ -6,7 +6,6 @@ import { generateCsv } from 'utils/generateCsv'
 import { capitalize } from 'utils/capitalize'
 
 export const PulseTable = ({ data, protein, maxPValue, minLog2FC }) => {
-
   const rows = data
     .slice(1)
     .map((rowData: string[]) => {

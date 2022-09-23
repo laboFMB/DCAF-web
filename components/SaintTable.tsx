@@ -6,7 +6,6 @@ import { generateCsv } from 'utils/generateCsv'
 import { capitalize } from 'utils/capitalize'
 
 export const SaintTable = ({ data, protein, minSaintScore, minLog2FC }) => {
-
   const rows = data
     .slice(1)
     .map((rowData: string[]) => {

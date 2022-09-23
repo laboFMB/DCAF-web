@@ -1,4 +1,4 @@
-import { useState} from 'react'
+import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { SaintTable } from 'components/SaintTable'
 import { SaintGraph } from 'components/SaintGraph'
@@ -25,8 +25,9 @@ export const SaintSection = ({ protein }) => {
   const { status, data } = useQuery([protein], () => fetchSaintFile(protein))
   const [minSaintScore, setMinSaintScore] = useState('0.7')
   const [minLog2FC, setMinLog2FC] = useState('')
-  const correctedMinSaintScore = minSaintScore === '' ? '-10000':parseFloat(minSaintScore)
-  const correctedMinLog2FC = minLog2FC === '' ? '-10000':parseFloat(minLog2FC)
+  const correctedMinSaintScore =
+    minSaintScore === '' ? '-10000' : parseFloat(minSaintScore)
+  const correctedMinLog2FC = minLog2FC === '' ? '-10000' : parseFloat(minLog2FC)
 
   if (status === 'loading') {
     return <CircularProgress />
@@ -36,32 +37,42 @@ export const SaintSection = ({ protein }) => {
     return (
       <>
         <FlexDiv>
-        <div>
-      <div style={{ display: 'flex' }}>
-        <FormControl>
-          <InputLabel>Minimum Saint Score</InputLabel>
-          <Input
-            sx={{ width: '200px' }}
-            value={minSaintScore}
-            onChange={(event) => setMinSaintScore(event.target.value)}
-            error={!isValidFloat(minSaintScore) && minSaintScore !== ''}
+          <div>
+            <div style={{ display: 'flex' }}>
+              <FormControl>
+                <InputLabel>Minimum Saint Score</InputLabel>
+                <Input
+                  sx={{ width: '200px' }}
+                  value={minSaintScore}
+                  onChange={(event) => setMinSaintScore(event.target.value)}
+                  error={!isValidFloat(minSaintScore) && minSaintScore !== ''}
+                />
+              </FormControl>
+              <FormControl>
+                <InputLabel>Minimum log2 fold change</InputLabel>
+                <Input
+                  sx={{ width: '250px' }}
+                  value={minLog2FC}
+                  onChange={(event) => setMinLog2FC(event.target.value)}
+                  error={!isValidFloat(minLog2FC) && minLog2FC !== ''}
+                />
+              </FormControl>
+            </div>
+          </div>
+          <SaintTable
+            data={data}
+            protein={protein}
+            minSaintScore={correctedMinSaintScore}
+            minLog2FC={correctedMinLog2FC}
           />
-        </FormControl>
-        <FormControl>
-          <InputLabel>Minimum log2 fold change</InputLabel>
-          <Input
-            sx={{ width: '250px' }}
-            value={minLog2FC}
-            onChange={(event) => setMinLog2FC(event.target.value)}
-            error={!isValidFloat(minLog2FC) && minLog2FC !== ''}
-          />
-        </FormControl>
-      </div>
-      </div>
-          <SaintTable data={data} protein={protein} minSaintScore={correctedMinSaintScore} minLog2FC={correctedMinLog2FC} />
         </FlexDiv>
         <FlexDiv>
-          <SaintGraph data={data} protein={protein}  minSaintScore={correctedMinSaintScore} minLog2FC={correctedMinLog2FC}/>
+          <SaintGraph
+            data={data}
+            protein={protein}
+            minSaintScore={correctedMinSaintScore}
+            minLog2FC={correctedMinLog2FC}
+          />
         </FlexDiv>
       </>
     )

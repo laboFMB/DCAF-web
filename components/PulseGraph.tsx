@@ -13,12 +13,12 @@ import { percentile } from 'utils/percentile'
 import * as colors from 'styles/colors'
 
 const makeInfo = (rowData) => {
-    return {
-      name: rowData[1],
-      x: parseFloat(rowData[2]),
-      y: -1 * Math.log10(parseFloat(rowData[3])),
-      z: 1
-    }
+  return {
+    name: rowData[1],
+    x: parseFloat(rowData[2]),
+    y: -1 * Math.log10(parseFloat(rowData[3])),
+    z: 1
+  }
 }
 
 export const PulseGraph = ({ data, maxPValue, minLog2FC }) => {
@@ -27,13 +27,16 @@ export const PulseGraph = ({ data, maxPValue, minLog2FC }) => {
   const otherRows = []
 
   for (const rowData of data.slice(1)) {
-      if (-1 * Math.log10(parseFloat(rowData[3])) <= maxPValue && parseFloat(rowData[2]) >= minLog2FC) {
-          filteredRows.push(makeInfo(rowData))
-          rows.push(makeInfo(rowData))
-      } else {
-          otherRows.push(makeInfo(rowData))
-          rows.push(makeInfo(rowData))
-      }
+    if (
+      -1 * Math.log10(parseFloat(rowData[3])) <= maxPValue &&
+      parseFloat(rowData[2]) >= minLog2FC
+    ) {
+      filteredRows.push(makeInfo(rowData))
+      rows.push(makeInfo(rowData))
+    } else {
+      otherRows.push(makeInfo(rowData))
+      rows.push(makeInfo(rowData))
+    }
   }
 
   console.log(rows)
@@ -45,7 +48,7 @@ export const PulseGraph = ({ data, maxPValue, minLog2FC }) => {
       height={450}
       margin={{ top: 50, right: 20, bottom: 20, left: 10 }}
     >
-      <Scatter name="Other" data={filteredRows} fill={colors.theme}/>
+      <Scatter name="Other" data={filteredRows} fill={colors.theme} />
       <Scatter name="filtered" data={otherRows} fill={colors.filtered} />
       <LabelList dataKey="name" />
       <XAxis
@@ -55,7 +58,10 @@ export const PulseGraph = ({ data, maxPValue, minLog2FC }) => {
           textAnchor: 'middle'
         }}
         dataKey="x"
-        domain={[dataMin=>Math.floor(dataMin), dataMax=>Math.ceil(dataMax)]}
+        domain={[
+          (dataMin) => Math.floor(dataMin),
+          (dataMax) => Math.ceil(dataMax)
+        ]}
         type="number"
         name="log2FC"
       />
@@ -66,7 +72,10 @@ export const PulseGraph = ({ data, maxPValue, minLog2FC }) => {
           position: 'insideLeft',
           textAnchor: 'middle'
         }}
-        domain={[dataMin=>Math.floor(dataMin), dataMax=>Math.ceil(dataMax)]}
+        domain={[
+          (dataMin) => Math.floor(dataMin),
+          (dataMax) => Math.ceil(dataMax)
+        ]}
         dataKey="y"
         name="-log10pvalue"
       />

@@ -24,9 +24,8 @@ export const PulseSection = ({ protein }) => {
   const { status, data } = useQuery([protein], () => fetchPulseFile(protein))
   const [maxPValue, setMaxPValue] = useState('1.3')
   const [minLog2FC, setMinLog2FC] = useState('1')
-  const correctedMaxPValue = maxPValue === '' ? '10000':parseFloat(maxPValue)
-  const correctedMinLog2FC = minLog2FC === '' ? '-10000':parseFloat(minLog2FC)
-
+  const correctedMaxPValue = maxPValue === '' ? '10000' : parseFloat(maxPValue)
+  const correctedMinLog2FC = minLog2FC === '' ? '-10000' : parseFloat(minLog2FC)
 
   if (status === 'loading') {
     return <CircularProgress />
@@ -36,32 +35,41 @@ export const PulseSection = ({ protein }) => {
     return (
       <>
         <FlexDiv>
-        <div>
-      <div style={{ display: 'flex' }}>
-        <FormControl>
-          <InputLabel>Maximum P-value</InputLabel>
-          <Input
-            sx={{ width: '200px' }}
-            value={maxPValue}
-            onChange={(event) => setMaxPValue(event.target.value)}
-            error={!isValidFloat(maxPValue) && maxPValue !== ''}
-          />
-        </FormControl>
-        <FormControl>
-          <InputLabel>Minimum log2 fold change</InputLabel>
-          <Input
-            sx={{ width: '250px' }}
-            value={minLog2FC}
-            onChange={(event) => setMinLog2FC(event.target.value)}
-            error={!isValidFloat(minLog2FC) && minLog2FC !== ''}
-          />
-        </FormControl>
-      </div>
-          <PulseTable data={data} protein={protein} maxPValue={correctedMaxPValue} minLog2FC={correctedMinLog2FC} />
+          <div>
+            <div style={{ display: 'flex' }}>
+              <FormControl>
+                <InputLabel>Maximum P-value</InputLabel>
+                <Input
+                  sx={{ width: '200px' }}
+                  value={maxPValue}
+                  onChange={(event) => setMaxPValue(event.target.value)}
+                  error={!isValidFloat(maxPValue) && maxPValue !== ''}
+                />
+              </FormControl>
+              <FormControl>
+                <InputLabel>Minimum log2 fold change</InputLabel>
+                <Input
+                  sx={{ width: '250px' }}
+                  value={minLog2FC}
+                  onChange={(event) => setMinLog2FC(event.target.value)}
+                  error={!isValidFloat(minLog2FC) && minLog2FC !== ''}
+                />
+              </FormControl>
+            </div>
+            <PulseTable
+              data={data}
+              protein={protein}
+              maxPValue={correctedMaxPValue}
+              minLog2FC={correctedMinLog2FC}
+            />
           </div>
         </FlexDiv>
         <FlexDiv>
-          <PulseGraph data={data} maxPValue={correctedMaxPValue} minLog2FC={correctedMinLog2FC} />
+          <PulseGraph
+            data={data}
+            maxPValue={correctedMaxPValue}
+            minLog2FC={correctedMinLog2FC}
+          />
         </FlexDiv>
       </>
     )

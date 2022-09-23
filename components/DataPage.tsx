@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query'
 import { DataDisplay } from 'components/DataDisplay'
 import Paper from '@mui/material/Paper'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import * as colors from 'styles/colors'
 
 const fetchProteinList = async () => {
   const url =
@@ -22,10 +23,10 @@ const fetchProteinList = async () => {
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#04AA6D'
+      main: colors.theme
     },
     secondary: {
-      main: '#04AA6D'
+      main: colors.theme
     }
   }
 })

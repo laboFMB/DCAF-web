@@ -10,6 +10,7 @@ import {
 } from 'recharts'
 import { GraphTooltip } from 'components/GraphTooltip'
 import { percentile } from 'utils/percentile'
+import * as colors from 'styles/colors'
 
 const makeInfo = (rowData) => {
     return {
@@ -44,8 +45,8 @@ export const PulseGraph = ({ data, maxPValue, minLog2FC }) => {
       height={450}
       margin={{ top: 50, right: 20, bottom: 20, left: 10 }}
     >
-      <Scatter name="Other" data={filteredRows} fill="#04AA6D" />
-      <Scatter name="filtered" data={otherRows} fill="#333333" />
+      <Scatter name="Other" data={filteredRows} fill={colors.theme}/>
+      <Scatter name="filtered" data={otherRows} fill={colors.filtered} />
       <LabelList dataKey="name" />
       <XAxis
         label={{

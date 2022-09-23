@@ -10,6 +10,7 @@ import {
 } from 'recharts'
 import { GraphTooltip } from 'components/GraphTooltip'
 import { percentile } from 'utils/percentile'
+import * as colors from 'styles/colors'
 
 const makeInfo = (rowData) => {
     return {
@@ -74,11 +75,11 @@ export const SaintGraph = ({ data, protein, minSaintScore, minLog2FC}) => {
         name="saint score"
       />
       <ZAxis dataKey="z" range={[0, 30]} />
-      <Scatter name="Other" data={filteredRows} fill="#04AA6D" />
-      <Scatter name="filtered" data={otherRows} fill="#333333" />
-      <Scatter name="Cul4A & Cul4B" data={Cul4} fill="#FF0000" />
-      <Scatter name="DDB1" data={DDB1} fill="#0000FF" />
-      <Scatter name="DCAF" data={DCAF} fill="#9900CC" />
+      <Scatter name="Other" data={filteredRows} fill= {colors.theme}/>
+      <Scatter name="filtered" data={otherRows} fill= {colors.filtered}/>
+      <Scatter name="Cul4A & Cul4B" data={Cul4} fill= {colors.cul4}/>
+      <Scatter name="DDB1" data={DDB1} fill= {colors.ddb1}/>
+      <Scatter name="DCAF" data={DCAF} fill= {colors.dcaf}/>
       <ReferenceLine
         x={percentile(rows.map((row) => row.x))}
         stroke="grey"
@@ -90,7 +91,7 @@ export const SaintGraph = ({ data, protein, minSaintScore, minLog2FC}) => {
         strokeDasharray="3 3"
       />
       <Tooltip content={<GraphTooltip />} cursor={{ strokeDasharray: '3 3' }} />
-      <Legend verticalAlign="top" height={36} payload={[{value:"DCAF",color:"#9900CC"},{value:"CUL4A & CUL4B",color:"#FF0000"},{value:"DDB1", color:"#0000FF", id:"DDB1"}]}/>
+      <Legend verticalAlign="top" height={36} payload={[{value:"DCAF",color:colors.dcaf},{value:"CUL4A & CUL4B",color:colors.cul4},{value:"DDB1", color:colors.ddb1}]}/>
     </ScatterChart>
   )
 }

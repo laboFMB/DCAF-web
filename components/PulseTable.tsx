@@ -16,7 +16,7 @@ export const PulseTable = ({ data, protein, maxPValue, minLog2FC }) => {
           data[0][i] = 'id'
         }
         if (data[0][i] === 'P-value') {
-          row[data[0][i]] = parseFloat(rowData[i]).toFixed(3)
+          row[data[0][i]] = parseFloat(rowData[i]).toExponential(2)
         } else if (data[0][i] === 'log2(Fold change)') {
           row[data[0][i]] = parseFloat(rowData[i]).toFixed(3)
         } else {

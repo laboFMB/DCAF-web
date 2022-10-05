@@ -1,7 +1,31 @@
 import React from 'react'
 import { NavBar } from 'components/NavBar'
+import Modal from '@mui/material/Modal'
+import Box from '@mui/material/Box'
+import Styled from '@emotion/styled'
+
+const ZoomableImg = Styled.img`
+  cursor: pointer;
+`
+
+const ImageBoxStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  maxHeight: '90vh',
+  maxWidth: '1400px',
+  width: '85vw',
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4
+}
 
 export const HomePage = () => {
+  const [open, setOpen] = React.useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
   return (
     <div style={{ display: 'flex' }}>
       <NavBar />
@@ -54,7 +78,20 @@ export const HomePage = () => {
         <a href="http://fmboisvert.recherche.usherbrooke.ca/equipe/">
           http://fmboisvert.recherche.usherbrooke.ca/equipe/
         </a>
-        <img
+        <Modal open={open} onClose={handleClose}>
+          <Box sx={ImageBoxStyle}>
+            <img
+              alt="Visual Abstract"
+              src={
+                'https://raw.githubusercontent.com/laboFMB/DCAF-data/main/abstract.png'
+              }
+              width="100%"
+              height="auto"
+            />
+          </Box>
+        </Modal>
+        <ZoomableImg
+          onClick={handleOpen}
           alt="Visual Abstract"
           src={
             'https://raw.githubusercontent.com/laboFMB/DCAF-data/main/abstract.png'

@@ -74,7 +74,7 @@ export const HomePage = () => {
           protein targeting, and cellular process affected. link to the paper,
           etc.
         </h5>
-        lABO Web site :{' '}
+        Lab Web Site :{' '}
         <a href="http://fmboisvert.recherche.usherbrooke.ca/equipe/">
           http://fmboisvert.recherche.usherbrooke.ca/equipe/
         </a>

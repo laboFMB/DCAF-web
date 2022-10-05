@@ -1,7 +1,6 @@
 import {
   Scatter,
   ScatterChart,
-  ReferenceLine,
   XAxis,
   YAxis,
   ZAxis,
@@ -9,7 +8,6 @@ import {
   LabelList
 } from 'recharts'
 import { GraphTooltip } from 'components/GraphTooltip'
-import { percentile } from 'utils/percentile'
 import * as colors from 'styles/colors'
 
 const makeInfo = (rowData) => {
@@ -80,16 +78,6 @@ export const PulseGraph = ({ data, maxPValue, minLog2FC }) => {
         name="-log10pvalue"
       />
       <ZAxis dataKey="z" range={[0, 30]} />
-      <ReferenceLine
-        x={percentile(rows.map((row) => row.x))}
-        stroke="grey"
-        strokeDasharray="3 3"
-      />
-      <ReferenceLine
-        y={percentile(rows.map((row) => row.y))}
-        stroke="grey"
-        strokeDasharray="3 3"
-      />
       <Tooltip content={<GraphTooltip />} cursor={{ strokeDasharray: '3 3' }} />
     </ScatterChart>
   )

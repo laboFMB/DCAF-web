@@ -19,14 +19,14 @@ const makeInfo = (rowData) => {
   }
 }
 
-export const PulseGraph = ({ data, maxPValue, minLog2FC }) => {
+export const PulseGraph = ({ data, minPvalue, minLog2FC }) => {
   const rows = []
   const filteredRows = []
   const otherRows = []
 
   for (const rowData of data.slice(1)) {
     if (
-      -1 * Math.log10(parseFloat(rowData[3])) <= maxPValue &&
+      -1 * Math.log10(parseFloat(rowData[3])) >= minPvalue &&
       parseFloat(rowData[2]) >= minLog2FC
     ) {
       filteredRows.push(makeInfo(rowData))

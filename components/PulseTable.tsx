@@ -5,7 +5,7 @@ import { download } from 'utils/download'
 import { generateCsv } from 'utils/generateCsv'
 import { capitalize } from 'utils/capitalize'
 
-export const PulseTable = ({ data, protein, maxPValue, minLog2FC }) => {
+export const PulseTable = ({ data, protein, minPvalue, minLog2FC }) => {
   const rows = data
     .slice(1)
     .map((rowData: string[]) => {
@@ -26,7 +26,7 @@ export const PulseTable = ({ data, protein, maxPValue, minLog2FC }) => {
     })
     .filter(
       (row) =>
-        row['P-value'] <= parseFloat(maxPValue === '' ? '100000' : maxPValue) &&
+        row['P-value'] >= parseFloat(minPvalue === '' ? '100000' : minPvalue) &&
         row['log2(Fold change)'] >=
           parseFloat(minLog2FC === '' ? '-10000' : minLog2FC)
     )

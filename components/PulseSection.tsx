@@ -22,9 +22,9 @@ const fetchPulseFile = async (protein: string) => {
 
 export const PulseSection = ({ protein }) => {
   const { status, data } = useQuery([protein], () => fetchPulseFile(protein))
-  const [maxPValue, setMaxPValue] = useState('1.3')
+  const [minPvalue, setMinPvalue] = useState('1.3')
   const [minLog2FC, setMinLog2FC] = useState('1')
-  const correctedMaxPValue = maxPValue === '' ? '10000' : parseFloat(maxPValue)
+  const correctedMinPvalue = minPvalue === '' ? '-10000' : parseFloat(minPvalue)
   const correctedMinLog2FC = minLog2FC === '' ? '-10000' : parseFloat(minLog2FC)
 
   if (status === 'loading') {
@@ -38,12 +38,12 @@ export const PulseSection = ({ protein }) => {
           <div>
             <div style={{ display: 'flex' }}>
               <FormControl>
-                <InputLabel>Maximum P-value</InputLabel>
+                <InputLabel>Minimum P-value</InputLabel>
                 <Input
                   sx={{ width: '200px' }}
-                  value={maxPValue}
-                  onChange={(event) => setMaxPValue(event.target.value)}
-                  error={!isValidFloat(maxPValue) && maxPValue !== ''}
+                  value={minPvalue}
+                  onChange={(event) => setMinPvalue(event.target.value)}
+                  error={!isValidFloat(minPvalue) && minPvalue !== ''}
                 />
               </FormControl>
               <FormControl>
@@ -59,7 +59,7 @@ export const PulseSection = ({ protein }) => {
             <PulseTable
               data={data}
               protein={protein}
-              maxPValue={correctedMaxPValue}
+              minPvalue={correctedMinPvalue}
               minLog2FC={correctedMinLog2FC}
             />
           </div>
@@ -67,7 +67,7 @@ export const PulseSection = ({ protein }) => {
         <FlexDiv>
           <PulseGraph
             data={data}
-            maxPValue={correctedMaxPValue}
+            minPvalue={correctedMinPvalue}
             minLog2FC={correctedMinLog2FC}
           />
         </FlexDiv>

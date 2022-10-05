@@ -7,9 +7,18 @@ export const HomePage = () => {
       <NavBar />
       <div style={{ maxWidth: '800px', display: 'block', marginLeft: '20px' }}>
         <h3>
-          Identification of protein substrates of the DDB1 and CUL4-associated
-          factors (DCAFs)
+          Identification of protein substrates of the Cullin-RING E3 ubiquitin
+          ligase CRL4 through its substrate recognition factors DCAFs
         </h3>
+        <i>
+          Jennifer Raisch*, Marie-Line Dubois*, Marika Groleau, Dominique
+          Lévesque, Carla-Marie Jurkovic, Alyson McKenna, Pierre-Etienne
+          Jacques, François-Michel Boisvert
+          <p />
+          <span style={{ fontSize: 'small' }}>
+            *Equal contribution of authors
+          </span>
+        </i>
         <h5>
           Cullin-RING finger ligases (CRLs) represent the largest family of
           ubiquitin ligases and are responsible for ubiquitination of ~20% of
@@ -41,6 +50,17 @@ export const HomePage = () => {
           protein targeting, and cellular process affected. link to the paper,
           etc.
         </h5>
+        lABO Web site :{' '}
+        <a href="http://fmboisvert.recherche.usherbrooke.ca/equipe/">
+          http://fmboisvert.recherche.usherbrooke.ca/equipe/
+        </a>
+        <img
+          alt="Visual Abstract"
+          src={
+            'https://raw.githubusercontent.com/laboFMB/DCAF-data/main/abstract.png'
+          }
+          height="400px"
+        />
       </div>
     </div>
   )

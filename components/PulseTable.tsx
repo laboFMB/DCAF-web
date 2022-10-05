@@ -26,9 +26,11 @@ export const PulseTable = ({ data, protein, minPvalue, minLog2FC }) => {
     })
     .filter(
       (row) =>
-        row['P-value'] >= parseFloat(minPvalue === '' ? '100000' : minPvalue) &&
+        row['P-value'] >=
+          -1 *
+            Math.log10(parseFloat(minPvalue === '' ? '-100000' : minPvalue)) &&
         row['log2(Fold change)'] >=
-          parseFloat(minLog2FC === '' ? '-10000' : minLog2FC)
+          parseFloat(minLog2FC === '' ? '-100000' : minLog2FC)
     )
 
   const columns = data[0].map((header) => {

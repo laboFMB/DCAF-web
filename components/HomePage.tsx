@@ -29,20 +29,40 @@ export const HomePage = () => {
   return (
     <div style={{ display: 'flex' }}>
       <NavBar />
-      <div style={{ maxWidth: '800px', display: 'block', marginLeft: '20px' }}>
+      <div
+        style={{
+          maxWidth: '1200px',
+          display: 'block',
+          marginLeft: '20px'
+        }}
+      >
         <h3>
           Identification of protein substrates of the Cullin-RING E3 ubiquitin
           ligase CRL4 through its substrate recognition factors DCAFs
         </h3>
-        <i>
-          Jennifer Raisch*, Marie-Line Dubois*, Marika Groleau, Dominique
-          Lévesque, Carla-Marie Jurkovic, Alyson McKenna, Pierre-Etienne
-          Jacques, François-Michel Boisvert
-          <p />
-          <span style={{ fontSize: 'small' }}>
-            *Equal contribution of authors
-          </span>
-        </i>
+        Lab Web Site :{' '}
+        <a href="http://fmboisvert.recherche.usherbrooke.ca/equipe/">
+          http://fmboisvert.recherche.usherbrooke.ca/equipe/
+        </a>
+        <Modal open={open} onClose={handleClose}>
+          <Box sx={ImageBoxStyle}>
+            <img
+              alt="Visual Abstract"
+              src={
+                'https://raw.githubusercontent.com/laboFMB/DCAF-data/main/abstract.png'
+              }
+              width="100%"
+              height="auto"
+            />
+          </Box>
+        </Modal>
+        <ZoomableImg
+          onClick={handleOpen}
+          alt="Visual Abstract"
+          src={
+            'https://raw.githubusercontent.com/laboFMB/DCAF-data/main/abstract.png'
+          }
+        />
         <h5>
           Cullin-RING finger ligases (CRLs) represent the largest family of
           ubiquitin ligases and are responsible for ubiquitination of ~20% of
@@ -74,30 +94,6 @@ export const HomePage = () => {
           protein targeting, and cellular process affected. link to the paper,
           etc.
         </h5>
-        Lab Web Site :{' '}
-        <a href="http://fmboisvert.recherche.usherbrooke.ca/equipe/">
-          http://fmboisvert.recherche.usherbrooke.ca/equipe/
-        </a>
-        <Modal open={open} onClose={handleClose}>
-          <Box sx={ImageBoxStyle}>
-            <img
-              alt="Visual Abstract"
-              src={
-                'https://raw.githubusercontent.com/laboFMB/DCAF-data/main/abstract.png'
-              }
-              width="100%"
-              height="auto"
-            />
-          </Box>
-        </Modal>
-        <ZoomableImg
-          onClick={handleOpen}
-          alt="Visual Abstract"
-          src={
-            'https://raw.githubusercontent.com/laboFMB/DCAF-data/main/abstract.png'
-          }
-          height="400px"
-        />
       </div>
     </div>
   )

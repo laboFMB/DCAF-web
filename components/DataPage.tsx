@@ -31,9 +31,6 @@ const theme = createTheme({
   }
 })
 
-
-
-
 export const DataPage = () => {
   const { status, data } = useQuery(['proteins'], fetchProteinList)
   const [protein, setProtein] = useState('AMBRA1')
@@ -57,7 +54,7 @@ export const DataPage = () => {
       <ThemeProvider theme={theme}>
         <div style={{ display: 'flex' }}>
           <NavBar />
-          <Paper elevation={20} sx={{ maxWidth: '1300px' }}>
+          <Paper elevation={0} sx={{ maxWidth: '1300px' }}>
             <div style={{ display: 'block' }}>
               <Box sx={{ display: 'flex', borderBottom: '1px solid grey' }}>
                 <ProteinSelect

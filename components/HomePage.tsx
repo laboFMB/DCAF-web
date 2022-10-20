@@ -36,10 +36,7 @@ export const HomePage = () => {
           marginLeft: '20px'
         }}
       >
-        <h3>
-          Identification of protein substrates of the Cullin-RING E3 ubiquitin
-          ligase CRL4 through its substrate recognition factors DCAFs
-        </h3>
+        <h3>DCAFbase : overiew of DCAFs interactomes and degradomes</h3>
         Lab Web Site :{' '}
         <a href="http://fmboisvert.recherche.usherbrooke.ca/equipe/">
           http://fmboisvert.recherche.usherbrooke.ca/equipe/

@@ -2,9 +2,9 @@ import React from 'react'
 import { NavBar } from 'components/NavBar'
 import Modal from '@mui/material/Modal'
 import Box from '@mui/material/Box'
-import Styled from '@emotion/styled'
+import styled from '@emotion/styled'
 
-const ZoomableImg = Styled.img`
+const ZoomableImg = styled.img`
   cursor: pointer;
 `
 
@@ -22,12 +22,17 @@ const ImageBoxStyle = {
   p: 4
 }
 
+const Container = styled.div`
+  display: flex;
+  height: 100%;
+`
+
 export const HomePage = () => {
   const [open, setOpen] = React.useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   return (
-    <div style={{ display: 'flex' }}>
+    <Container>
       <NavBar />
       <div
         style={{
@@ -92,6 +97,6 @@ export const HomePage = () => {
           etc.
         </h5>
       </div>
-    </div>
+    </Container>
   )
 }

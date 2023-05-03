@@ -7,7 +7,7 @@ import DataIcon from '@mui/icons-material/QueryStats'
 
 const NavDiv = styled.div`
   width: 50px;
-  height: 100vh;
+  min-height: 100%;
   background-color: black;
 `
 

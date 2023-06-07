@@ -82,6 +82,12 @@ export const VennSection = ({
   saintService,
   pulseService
 }: VennSectionProps) => {
+  if (saintService.status === 'loading' || pulseService.status === 'loading') {
+    return null
+  }
+  if (saintService.status === 'error' || pulseService.status === 'error') {
+    return null
+  }
   const filteredSaint = saintService.filter()
   const filteredPulse = pulseService.filter()
   const overlapCount = OverlapCount(filteredSaint, filteredPulse)

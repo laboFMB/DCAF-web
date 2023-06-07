@@ -4,9 +4,76 @@ import styled from '@emotion/styled'
 import { SaintData } from 'features/saint'
 import { PulseData } from 'features/pulse'
 
+function OverlapCount(saint: SaintData, pulse: PulseData) {
+  let count = 0
+  const seen = new Set()
+  for (const row of saint.rows) {
+    for (const prey of row.prey.split(';')) {
+      seen.add(prey)
+    }
+  }
+  for (const row of pulse.rows) {
+    for (const gene of row.geneName.split(';')) {
+      if (seen.has(gene)) {
+        count++
+      }
+    }
+  }
+  return count
+}
+
 type VennSectionProps = {
   saintService: ReturnType<typeof useSaintService>
   pulseService: ReturnType<typeof usePulseService>
+}
+
+export const VennSection = ({
+  saintService,
+  pulseService
+}: VennSectionProps) => {
+  if (saintService.status === 'loading' || pulseService.status === 'loading') {
+    return null
+  }
+  if (saintService.status === 'error' || pulseService.status === 'error') {
+    return null
+  }
+  const filteredSaint = saintService.filter()
+  const filteredPulse = pulseService.filter()
+  const overlapCount = OverlapCount(filteredSaint, filteredPulse)
+
+  return (
+    <VennDiagram
+      leftValue={filteredSaint.rows.length}
+      leftLabel="Proximity Labeling"
+      rightValue={filteredPulse.rows.length}
+      rightLabel="Pulse Silac"
+      overlapValue={overlapCount}
+    />
+  )
+}
+
+type VennDiagramProps = {
+  leftValue: number
+  leftLabel: string
+  rightValue: number
+  rightLabel: string
+  overlapValue: number
+}
+
+const VennDiagram = ({
+  leftValue,
+  leftLabel,
+  rightValue,
+  rightLabel,
+  overlapValue
+}: VennDiagramProps) => {
+  return (
+    <VennDiagramBox>
+      <LeftCircle label={leftLabel}>{leftValue}</LeftCircle>
+      <Overlap>{overlapValue}</Overlap>
+      <RightCircle label={rightLabel}>{rightValue}</RightCircle>
+    </VennDiagramBox>
+  )
 }
 
 const VennDiagramBox = styled.div`
@@ -63,66 +130,3 @@ const RightCircle = styled.div<{ label: string }>`
     right: 0;
   }
 `
-
-function OverlapCount(saint: SaintData, pulse: PulseData) {
-  let count = 0
-  const seen = new Set()
-  for (const row of saint.rows) {
-    seen.add(row.prey)
-  }
-  for (const row of pulse.rows) {
-    if (seen.has(row.geneName)) {
-      count++
-    }
-  }
-  return count
-}
-
-export const VennSection = ({
-  saintService,
-  pulseService
-}: VennSectionProps) => {
-  if (saintService.status === 'loading' || pulseService.status === 'loading') {
-    return null
-  }
-  if (saintService.status === 'error' || pulseService.status === 'error') {
-    return null
-  }
-  const filteredSaint = saintService.filter()
-  const filteredPulse = pulseService.filter()
-  const overlapCount = OverlapCount(filteredSaint, filteredPulse)
-
-  return (
-    <VennDiagram
-      leftValue={filteredSaint.rows.length}
-      leftLabel="Proximity Labeling"
-      rightValue={filteredPulse.rows.length}
-      rightLabel="Pulse Silac"
-      overlapValue={overlapCount}
-    />
-  )
-}
-
-type VennDiagramProps = {
-  leftValue: number
-  leftLabel: string
-  rightValue: number
-  rightLabel: string
-  overlapValue: number
-}
-
-const VennDiagram = ({
-  leftValue,
-  leftLabel,
-  rightValue,
-  rightLabel,
-  overlapValue
-}: VennDiagramProps) => {
-  return (
-    <VennDiagramBox>
-      <LeftCircle label={leftLabel}>{leftValue}</LeftCircle>
-      <Overlap>{overlapValue}</Overlap>
-      <RightCircle label={rightLabel}>{rightValue}</RightCircle>
-    </VennDiagramBox>
-  )
-}

@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import Box from '@mui/material/Box'
+import { PageBox, ContentBox } from 'components/layout'
 import { SectionBar } from 'components/SectionBar'
 import { NavBar } from 'components/NavBar'
 import { ProteinSelect } from 'components/ProteinSelect'
 import { useQuery } from '@tanstack/react-query'
 import { DataDisplay } from 'components/DataDisplay'
-import Paper from '@mui/material/Paper'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import * as colors from 'styles/colors'
 
@@ -42,6 +42,7 @@ export const DataPage = () => {
   const handleSectionChange = (_, newValue) => {
     setSection(newValue)
   }
+
   if (status === 'loading') {
     return (
       <>
@@ -52,22 +53,20 @@ export const DataPage = () => {
   } else {
     return (
       <ThemeProvider theme={theme}>
-        <div style={{ display: 'flex' }}>
+        <PageBox>
           <NavBar />
-          <Paper elevation={0} sx={{ maxWidth: '1300px' }}>
-            <div style={{ display: 'block' }}>
-              <Box sx={{ display: 'flex', borderBottom: '1px solid grey' }}>
-                <ProteinSelect
-                  options={data}
-                  value={protein}
-                  onChange={handleProteinChange}
-                />
-                <SectionBar value={section} onChange={handleSectionChange} />
-              </Box>
-              <DataDisplay section={section} protein={protein} />
-            </div>
-          </Paper>
-        </div>
+          <ContentBox>
+            <Box sx={{ display: 'flex', borderBottom: '1px solid grey' }}>
+              <ProteinSelect
+                options={data}
+                value={protein}
+                onChange={handleProteinChange}
+              />
+              <SectionBar value={section} onChange={handleSectionChange} />
+            </Box>
+            <DataDisplay section={section} protein={protein} />
+          </ContentBox>
+        </PageBox>
       </ThemeProvider>
     )
   }

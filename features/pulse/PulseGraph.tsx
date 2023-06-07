@@ -1,45 +1,54 @@
 import {
   Scatter,
+  LabelList,
   ScatterChart,
   XAxis,
   YAxis,
   ZAxis,
-  Tooltip,
-  LabelList
+  Tooltip
 } from 'recharts'
 import { GraphTooltip } from 'components/GraphTooltip'
 import * as colors from 'styles/colors'
+import { PulseRow, PulseData } from 'features/pulse/usePulseService'
 
-const makeInfo = (rowData) => {
+type PointInfo = {
+  name: string
+  x: number
+  y: number
+  z: number
+}
+
+const makeInfo = (row: PulseRow): PointInfo => {
   return {
-    name: rowData[1],
-    x: parseFloat(rowData[2]),
-    y: -1 * Math.log10(parseFloat(rowData[3])),
+    name: row.geneName,
+    x: row.log2FC,
+    y: -1 * Math.log10(row.pValue),
     z: 1
   }
 }
 
-export const PulseGraph = ({ data, minPvalue, minLog2FC }) => {
-  const rows = []
+type PulseGraphProps = {
+  pulseData: PulseData
+  filterMask: boolean[]
+}
+
+export const PulseGraph = ({ pulseData, filterMask }: PulseGraphProps) => {
+  const data = pulseData.rows
   const filteredRows = []
   const otherRows = []
 
-  for (const rowData of data.slice(1)) {
-    if (
-      -1 * Math.log10(parseFloat(rowData[3])) >= minPvalue &&
-      parseFloat(rowData[2]) >= minLog2FC
-    ) {
-      filteredRows.push(makeInfo(rowData))
-      rows.push(makeInfo(rowData))
-    } else {
-      otherRows.push(makeInfo(rowData))
-      rows.push(makeInfo(rowData))
-    }
+  if (data.length !== filterMask.length) {
+    console.error('data and filterMask length mismatch')
+    return null
   }
+  data.forEach((row: PulseRow, i: number) => {
+    if (filterMask[i]) {
+      filteredRows.push(makeInfo(row))
+    } else {
+      otherRows.push(makeInfo(row))
+    }
+  })
 
-  console.log(rows)
-  console.log(filteredRows)
-  console.log(otherRows)
   return (
     <ScatterChart
       width={600}
@@ -57,8 +66,8 @@ export const PulseGraph = ({ data, minPvalue, minLog2FC }) => {
         }}
         dataKey="x"
         domain={[
-          (dataMin) => Math.floor(dataMin),
-          (dataMax) => Math.ceil(dataMax)
+          (dataMin: number) => Math.floor(dataMin),
+          (dataMax: number) => Math.ceil(dataMax)
         ]}
         type="number"
         name="log2FC"
@@ -71,8 +80,8 @@ export const PulseGraph = ({ data, minPvalue, minLog2FC }) => {
           textAnchor: 'middle'
         }}
         domain={[
-          (dataMin) => Math.floor(dataMin),
-          (dataMax) => Math.ceil(dataMax)
+          (dataMin: number) => Math.floor(dataMin),
+          (dataMax: number) => Math.ceil(dataMax)
         ]}
         dataKey="y"
         name="-log10pvalue"

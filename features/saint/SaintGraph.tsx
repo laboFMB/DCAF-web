@@ -9,42 +9,59 @@ import {
 } from 'recharts'
 import { GraphTooltip } from 'components/GraphTooltip'
 import * as colors from 'styles/colors'
+import { SaintRow, SaintData } from 'features/saint/useSaintService'
 
-const makeInfo = (rowData) => {
+type PointInfo = {
+  name: string
+  x: number
+  y: number
+  z: number
+}
+
+const makeInfo = (row: SaintRow): PointInfo => {
   return {
-    name: rowData[2],
-    x: parseFloat(rowData[4]),
-    y: parseFloat(rowData[3]),
+    name: row.prey,
+    x: row.log2FC,
+    y: row.saintScore,
     z: 1
   }
 }
 
-export const SaintGraph = ({ data, protein, minSaintScore, minLog2FC }) => {
-  const rows = []
+type SaintGraphProps = {
+  saintData: SaintData
+  filterMask: boolean[]
+  protein: string
+}
+
+export const SaintGraph = ({
+  saintData,
+  filterMask,
+  protein
+}: SaintGraphProps) => {
+  const data = saintData.rows
   const filteredRows = []
   const otherRows = []
   const DDB1 = []
   const Cul4 = []
   const DCAF = []
 
-  for (const rowData of data.slice(1)) {
-    if (rowData[2] === 'CUL4A' || rowData[2] === 'CUL4B') {
-      Cul4.push(makeInfo(rowData))
-    } else if (rowData[2] === 'DDB1') {
-      DDB1.push(makeInfo(rowData))
-    } else if (rowData[2] === protein) {
-      DCAF.push(makeInfo(rowData))
-    } else if (
-      parseFloat(rowData[3]) >= minSaintScore &&
-      parseFloat(rowData[4]) >= minLog2FC
-    ) {
-      filteredRows.push(makeInfo(rowData))
-      rows.push(makeInfo(rowData))
-    } else {
-      otherRows.push(makeInfo(rowData))
-      rows.push(makeInfo(rowData))
-    }
+  if (data.length !== filterMask.length) {
+    console.error('data and filterMask length mismatch')
+    return null
   }
+  data.forEach((row: SaintRow, i: number) => {
+    if (row.prey === 'CUL4A' || row[2] === 'CUL4B') {
+      Cul4.push(makeInfo(row))
+    } else if (row.prey === 'DDB1') {
+      DDB1.push(makeInfo(row))
+    } else if (row.prey === protein) {
+      DCAF.push(makeInfo(row))
+    } else if (filterMask[i]) {
+      filteredRows.push(makeInfo(row))
+    } else {
+      otherRows.push(makeInfo(row))
+    }
+  })
 
   return (
     <ScatterChart
@@ -60,8 +77,8 @@ export const SaintGraph = ({ data, protein, minSaintScore, minLog2FC }) => {
         }}
         dataKey="x"
         domain={[
-          (dataMin) => Math.floor(dataMin),
-          (dataMax) => Math.ceil(dataMax)
+          (dataMin: number) => Math.floor(dataMin),
+          (dataMax: number) => Math.ceil(dataMax)
         ]}
         type="number"
         name="log2FC"

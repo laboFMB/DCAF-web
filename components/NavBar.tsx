@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import HomeIcon from '@mui/icons-material/Home'
 import DataIcon from '@mui/icons-material/QueryStats'
 
-const NavDiv = styled.div`
+const NavDiv = styled.nav`
   width: 50px;
   min-height: 100%;
   background-color: black;

@@ -3,3 +3,7 @@ body {
   height: 100%;
   margin: 0px;
 }
+
+#__next {
+  height: 100%;
+}

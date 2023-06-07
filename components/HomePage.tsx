@@ -3,9 +3,11 @@ import { NavBar } from 'components/NavBar'
 import Modal from '@mui/material/Modal'
 import Box from '@mui/material/Box'
 import styled from '@emotion/styled'
+import { PageBox, ContentBox } from 'components/layout'
 
 const ZoomableImg = styled.img`
   cursor: pointer;
+  max-width: 1080px;
 `
 
 const ImageBoxStyle = {
@@ -13,7 +15,7 @@ const ImageBoxStyle = {
   top: '50%',
   left: '50%',
   maxHeight: '90vh',
-  maxWidth: '1400px',
+  maxWidth: '720px',
   width: '85vw',
   transform: 'translate(-50%, -50%)',
   bgcolor: 'background.paper',
@@ -22,9 +24,19 @@ const ImageBoxStyle = {
   p: 4
 }
 
-const Container = styled.div`
-  display: flex;
-  height: 100%;
+const Abstract = styled.article`
+  font-size: 0.83em;
+  display: block;
+  font-weight: bold;
+  max-width: 1080px;
+`
+
+const Title = styled.header`
+  display: block;
+  font-size: 1.17em;
+  font-weight: bold;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
 `
 
 export const HomePage = () => {
@@ -32,16 +44,10 @@ export const HomePage = () => {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   return (
-    <Container>
+    <PageBox>
       <NavBar />
-      <div
-        style={{
-          maxWidth: '1200px',
-          display: 'block',
-          marginLeft: '20px'
-        }}
-      >
-        <h3>DCAFbase : overiew of DCAFs interactomes and degradomes</h3>
+      <ContentBox>
+        <Title>DCAFbase : overiew of DCAFs interactomes and degradomes</Title>
         Lab Web Site :{' '}
         <a href="http://fmboisvert.recherche.usherbrooke.ca/equipe/">
           http://fmboisvert.recherche.usherbrooke.ca/equipe/
@@ -65,7 +71,7 @@ export const HomePage = () => {
             'https://raw.githubusercontent.com/laboFMB/DCAF-data/main/abstract.png'
           }
         />
-        <h5>
+        <Abstract>
           Cullin-RING finger ligases (CRLs) represent the largest family of
           ubiquitin ligases and are responsible for ubiquitination of ~20% of
           cellular proteins degraded through the proteasome, catalyzing the
@@ -95,8 +101,8 @@ export const HomePage = () => {
           provides new insights into the roles of DCAFs in DDB1-CUL4 complex,
           protein targeting, and cellular process affected. link to the paper,
           etc.
-        </h5>
-      </div>
-    </Container>
+        </Abstract>
+      </ContentBox>
+    </PageBox>
   )
 }

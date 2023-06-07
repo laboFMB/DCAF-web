@@ -60,7 +60,7 @@ function pulseDataToDisplayTable(pulseData: PulseData): PulseDisplayTable {
       id: row.id.toString(),
       geneName: row.geneName,
       log2FoldChange: row.log2FC.toFixed(3),
-      pValue: row.pValue.toFixed(3)
+      pValue: row.pValue.toExponential(2)
     } as PulseDisplayRow
   })
   return {

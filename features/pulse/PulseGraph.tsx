@@ -22,7 +22,7 @@ const makeInfo = (row: PulseRow): PointInfo => {
   return {
     name: row.geneName,
     x: row.log2FC,
-    y: -1 * Math.log10(row.pValue),
+    y: row.log10pVal,
     z: 1
   }
 }

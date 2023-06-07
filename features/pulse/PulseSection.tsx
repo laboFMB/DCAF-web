@@ -31,8 +31,8 @@ export const PulseSection = ({ protein, pulseService }: PulseSectionProps) => {
             setMinPValue={pulseService.setMinPValue}
           />
           <FoldChangeForm
-            minLog2FC={pulseService.minLog2FC}
-            setMinLog2FC={pulseService.setMinLog2FC}
+            maxLog2FC={pulseService.maxLog2FC}
+            setMaxLog2FC={pulseService.setMaxLog2FC}
           />
         </FormBox>
         <PulseTable pulseData={pulseService.filter()} protein={protein} />
@@ -61,15 +61,15 @@ const PValueForm = ({ minPValue, setMinPValue }) => {
   )
 }
 
-const FoldChangeForm = ({ minLog2FC, setMinLog2FC }) => {
+const FoldChangeForm = ({ maxLog2FC, setMaxLog2FC }) => {
   return (
     <FormControl>
-      <InputLabel>Minimum log2 fold change</InputLabel>
+      <InputLabel>Maximum log2 fold change</InputLabel>
       <Input
         sx={{ width: '250px' }}
-        value={minLog2FC}
-        onChange={(event) => setMinLog2FC(event.target.value)}
-        error={!isValidFloat(minLog2FC) && minLog2FC !== ''}
+        value={maxLog2FC}
+        onChange={(event) => setMaxLog2FC(event.target.value)}
+        error={!isValidFloat(maxLog2FC) && maxLog2FC !== ''}
       />
     </FormControl>
   )

@@ -20,7 +20,7 @@ const parsePulseData = (csv: string[][]): PulseData => {
       geneName: row[1],
       log2FC: parseFloat(row[2]),
       pValue: parseFloat(row[3]),
-      log10PValue: -1 * Math.log10(parseFloat(row[3]))
+      log10pVal: -1 * Math.log10(parseFloat(row[3]))
     } as PulseRow
   })
   return {

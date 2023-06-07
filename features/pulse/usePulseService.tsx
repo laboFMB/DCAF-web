@@ -7,6 +7,7 @@ export type PulseRow = {
   geneName: string
   log2FC: number
   pValue: number
+  log10pVal: number
 }
 
 export type PulseData = {
@@ -16,15 +17,14 @@ export type PulseData = {
 
 export const usePulseService = (protein: string) => {
   const { status, data } = usePulseData(protein)
-  const [minPValue, setMinPValue] = useState('1.3')
-  const [minLog2FC, setMinLog2FC] = useState('1')
+  const [minPValue, setMinPValue] = useState('3')
+  const [maxLog2FC, setMaxLog2FC] = useState('-1')
 
   function getFilterMask(): boolean[] {
     const minLog10PVal = parseMin(minPValue)
-    const minFC = parseMin(minLog2FC)
+    const maxFC = parseMin(maxLog2FC)
     return data.rows.map(
-      (row) =>
-        -1 * Math.log10(row.pValue) >= minLog10PVal && row.log2FC >= minFC
+      (row) => row.log10pVal >= minLog10PVal && row.log2FC <= maxFC
     )
   }
 
@@ -43,7 +43,7 @@ export const usePulseService = (protein: string) => {
     getFilterMask,
     minPValue,
     setMinPValue,
-    minLog2FC,
-    setMinLog2FC
+    maxLog2FC,
+    setMaxLog2FC
   }
 }

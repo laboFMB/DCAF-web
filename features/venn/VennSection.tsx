@@ -224,19 +224,59 @@ const VennDiagram = ({
           fillOpacity="0.2"
           ref={rightCircle}
         />
-        <text x="100" y="40" textAnchor="middle" fill="black">
+        <text
+          fontSize="1.3rem"
+          stroke="black"
+          strokeWidth="0"
+          x="100"
+          y="40"
+          textAnchor="middle"
+          fill="black"
+        >
           {leftLabel}
         </text>
-        <text x="350" y="40" textAnchor="middle" fill="black">
+        <text
+          fontSize="1.3rem"
+          stroke="black"
+          strokeWidth="0"
+          x="350"
+          y="40"
+          textAnchor="middle"
+          fill="black"
+        >
           {rightLabel}
         </text>
-        <text x="100" y="200" textAnchor="middle" fill="black">
+        <text
+          fontSize="1.4rem"
+          stroke="black"
+          strokeWidth="0"
+          x="100"
+          y="200"
+          textAnchor="middle"
+          fill="black"
+        >
           {leftSet.size}
         </text>
-        <text x="350" y="200" textAnchor="middle" fill="black">
+        <text
+          fontSize="1.4rem"
+          stroke="black"
+          strokeWidth="0"
+          x="350"
+          y="200"
+          textAnchor="middle"
+          fill="black"
+        >
           {rightSet.size}
         </text>
-        <text x="225" y="200" textAnchor="middle" fill="black">
+        <text
+          fontSize="1.4rem"
+          stroke="black"
+          strokeWidth="0"
+          x="225"
+          y="200"
+          textAnchor="middle"
+          fill="black"
+        >
           {overlapSet.size}
         </text>
       </svg>

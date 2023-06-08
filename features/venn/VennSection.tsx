@@ -1,25 +1,86 @@
+import { useRef, useState } from 'react'
 import { useSaintService } from 'features/saint'
 import { usePulseService } from 'features/pulse'
 import styled from '@emotion/styled'
 import { SaintData } from 'features/saint'
 import { PulseData } from 'features/pulse'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemText from '@mui/material/ListItemText'
 
-function OverlapCount(saint: SaintData, pulse: PulseData) {
-  let count = 0
-  const seen = new Set()
+const Tooltip = styled(List)`
+  max-height: 200px;
+  min-width: 70px;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  padding: 0;
+  .MuiListItem-root {
+    padding: 0;
+  }
+  .MuiListItemText-root {
+    margin: 0;
+  }
+  background-color: white;
+  border: 1px solid black;
+`
+
+const GeneListBox = styled.div<{ top: number; left: number; hidden: boolean }>`
+  position: absolute;
+  top: ${({ top }) => top}px;
+  left: ${({ left }) => left}px;
+  diplay: ${({ hidden }) => (hidden ? 'none' : 'block')};
+`
+
+type Position = {
+  top: number
+  left: number
+}
+
+const TooltipList = ({
+  pos,
+  list,
+  hidden
+}: {
+  pos: Position
+  list: string[]
+  hidden: boolean
+}) => {
+  return (
+    <GeneListBox hidden={hidden} top={pos.top} left={pos.left}>
+      <Tooltip dense>
+        {list.map((el) => (
+          <ListItem key={el}>
+            <ListItemText primary={el} />
+          </ListItem>
+        ))}
+      </Tooltip>
+    </GeneListBox>
+  )
+}
+
+function VennSets(
+  saint: SaintData,
+  pulse: PulseData
+): [Set<string>, Set<string>, Set<string>] {
+  const left = new Set<string>()
+  const overlap = new Set<string>()
+  const right = new Set<string>()
   for (const row of saint.rows) {
     for (const prey of row.prey.split(';')) {
-      seen.add(prey)
+      left.add(prey)
     }
   }
   for (const row of pulse.rows) {
     for (const gene of row.geneName.split(';')) {
-      if (seen.has(gene)) {
-        count++
+      if (left.has(gene)) {
+        overlap.add(gene)
+        left.delete(gene)
+      } else {
+        right.add(gene)
       }
     }
   }
-  return count
+  return [left, overlap, right]
 }
 
 type VennSectionProps = {
@@ -39,94 +100,167 @@ export const VennSection = ({
   }
   const filteredSaint = saintService.filter()
   const filteredPulse = pulseService.filter()
-  const overlapCount = OverlapCount(filteredSaint, filteredPulse)
+  const [leftSet, overlapSet, rightSet] = VennSets(filteredSaint, filteredPulse)
 
   return (
     <VennDiagram
-      leftValue={filteredSaint.rows.length}
+      leftSet={leftSet}
       leftLabel="Proximity Labeling"
-      rightValue={filteredPulse.rows.length}
+      rightSet={rightSet}
       rightLabel="Pulse Silac"
-      overlapValue={overlapCount}
+      overlapSet={overlapSet}
     />
   )
 }
 
 type VennDiagramProps = {
-  leftValue: number
+  leftSet: Set<string>
   leftLabel: string
-  rightValue: number
+  rightSet: Set<string>
   rightLabel: string
-  overlapValue: number
+  overlapSet: Set<string>
+}
+
+type TooltipState = 'left' | 'right' | 'overlap' | 'none'
+type TooltipInfo = {
+  state: TooltipState
+  position: Position
+}
+
+function newTooltipInfo(
+  state: TooltipState = 'none',
+  top = 0,
+  left = 0
+): TooltipInfo {
+  return {
+    state: state,
+    position: { top: top, left: left }
+  }
 }
 
 const VennDiagram = ({
-  leftValue,
+  leftSet,
   leftLabel,
-  rightValue,
+  rightSet,
   rightLabel,
-  overlapValue
+  overlapSet
 }: VennDiagramProps) => {
+  const leftCircle = useRef(null)
+  const rightCircle = useRef(null)
+  const box = useRef(null)
+  const [tooltipInfo, setTooltipInfo] = useState<TooltipInfo>(newTooltipInfo())
+
+  function handleClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    if (leftCircle.current === null || rightCircle.current === null) {
+      return
+    }
+    const leftCirclePosition = leftCircle.current.getBoundingClientRect()
+    const rightCirclePosition = rightCircle.current.getBoundingClientRect()
+    const boxPosition = box.current.getBoundingClientRect()
+    const relativeX = e.clientX - boxPosition.left
+    const relativeY = e.clientY - boxPosition.top
+    const leftCircleCenter = {
+      x: leftCirclePosition.left + leftCirclePosition.width / 2,
+      y: leftCirclePosition.top + leftCirclePosition.height / 2
+    }
+    const rightCircleCenter = {
+      x: rightCirclePosition.left + rightCirclePosition.width / 2,
+      y: rightCirclePosition.top + rightCirclePosition.height / 2
+    }
+    const leftCenterToClickDistance = Math.sqrt(
+      Math.pow(leftCircleCenter.x - e.clientX, 2) +
+        Math.pow(leftCircleCenter.y - e.clientY, 2)
+    )
+    const rightCenterToClickDistance = Math.sqrt(
+      Math.pow(rightCircleCenter.x - e.clientX, 2) +
+        Math.pow(rightCircleCenter.y - e.clientY, 2)
+    )
+    const isInsideLeftCircle = leftCenterToClickDistance < 150
+    const isInsideRightCircle = rightCenterToClickDistance < 150
+    if (
+      isInsideLeftCircle &&
+      isInsideRightCircle &&
+      tooltipInfo.state !== 'overlap'
+    ) {
+      setTooltipInfo(newTooltipInfo('overlap', relativeY, relativeX))
+    } else if (
+      isInsideLeftCircle &&
+      !isInsideRightCircle &&
+      tooltipInfo.state !== 'left'
+    ) {
+      setTooltipInfo(newTooltipInfo('left', relativeY, relativeX))
+    } else if (
+      !isInsideLeftCircle &&
+      isInsideRightCircle &&
+      tooltipInfo.state !== 'right'
+    ) {
+      setTooltipInfo(newTooltipInfo('right', relativeY, relativeX))
+    } else {
+      setTooltipInfo(newTooltipInfo('none', relativeY, relativeX))
+    }
+  }
+
   return (
-    <VennDiagramBox>
-      <LeftCircle label={leftLabel}>{leftValue}</LeftCircle>
-      <Overlap>{overlapValue}</Overlap>
-      <RightCircle label={rightLabel}>{rightValue}</RightCircle>
+    <VennDiagramBox ref={box} onClick={handleClick}>
+      <svg height="350" width="450">
+        <path
+          id="left"
+          d="M 150, 200
+                   m -150, 0
+                   a 150,150 0 1,0 300,0
+                   a 150,150 0 1,0 -300,0"
+          fill="red"
+          fillOpacity="0.2"
+          ref={leftCircle}
+        />
+
+        <path
+          id="right"
+          d="M 300, 200
+                    m -150, 0
+                    a 150,150 0 1,0 300,0
+                    a 150,150 0 1,0 -300,0"
+          fill="blue"
+          fillOpacity="0.2"
+          ref={rightCircle}
+        />
+        <text x="100" y="40" textAnchor="middle" fill="black">
+          {leftLabel}
+        </text>
+        <text x="350" y="40" textAnchor="middle" fill="black">
+          {rightLabel}
+        </text>
+        <text x="100" y="200" textAnchor="middle" fill="black">
+          {leftSet.size}
+        </text>
+        <text x="350" y="200" textAnchor="middle" fill="black">
+          {rightSet.size}
+        </text>
+        <text x="225" y="200" textAnchor="middle" fill="black">
+          {overlapSet.size}
+        </text>
+      </svg>
+      <TooltipList
+        pos={tooltipInfo.position}
+        hidden={tooltipInfo.state != 'left' || leftSet.size == 0}
+        list={Array.from(leftSet)}
+      />
+      <TooltipList
+        pos={tooltipInfo.position}
+        hidden={tooltipInfo.state != 'overlap' || overlapSet.size == 0}
+        list={Array.from(overlapSet)}
+      />
+      <TooltipList
+        pos={tooltipInfo.position}
+        hidden={tooltipInfo.state != 'right' || rightSet.size == 0}
+        list={Array.from(rightSet)}
+      />
     </VennDiagramBox>
   )
 }
 
 const VennDiagramBox = styled.div`
-  padding-top: 40px;
-  display: flex;
-  justify-content: center;
-`
-
-const LeftCircle = styled.div<{ label: string }>`
-  width: 300px;
-  height: 300px;
-  display: flex;
-  margin-right: -100px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  background-color: rgba(0, 0, 255, 0.2);
-
   position: relative;
-  &:after {
-    content: '${(props) => props.label}';
-    position: absolute;
-    top: 0;
-    left: 0;
-`
-
-const Overlap = styled.div`
-  width: 300px;
-  height: 300px;
   display: flex;
-  margin: 0px -100px;
   justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  background-color: transparent;
-  z-index: 2;
-`
-
-const RightCircle = styled.div<{ label: string }>`
-  width: 300px;
-  height: 300px;
-  display: flex;
-  margin-left: -100px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  background-color: rgba(255, 0, 0, 0.2);
-
-  position: relative;
-  &:after {
-    content: '${(props) => props.label}';
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
 `

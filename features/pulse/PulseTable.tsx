@@ -44,17 +44,19 @@ type PulseDisplayTable = {
 
 function pulseDataToDisplayTable(pulseData: PulseData): PulseDisplayTable {
   const { header, rows: dataRows } = pulseData
-  const columns = header.map((header) => {
-    return {
-      field: toCamelCase(header),
-      headerName: capitalize(header),
-      type: ['log2(Fold change)', 'P-value', 'id'].includes(header)
-        ? 'number'
-        : 'string',
-      headerClassName: 'grid-header',
-      width: header === 'id' ? 70 : 140
-    } as PulseDisplayColumn
-  })
+  const columns = header
+    .filter((header) => header != 'id')
+    .map((header) => {
+      return {
+        field: toCamelCase(header),
+        headerName: capitalize(header),
+        type: ['log2(Fold change)', 'P-value', 'id'].includes(header)
+          ? 'number'
+          : 'string',
+        headerClassName: 'grid-header',
+        width: header === 'id' ? 70 : 140
+      } as PulseDisplayColumn
+    })
   const rows = dataRows.map((row) => {
     return {
       id: row.id.toString(),

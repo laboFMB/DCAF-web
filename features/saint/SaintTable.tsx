@@ -42,17 +42,19 @@ type SaintDisplayTable = {
 
 function saintDataToDisplayTable(saintData: SaintData): SaintDisplayTable {
   const { header, rows: dataRows } = saintData
-  const columns = header.map((header) => {
-    return {
-      field: toCamelCase(header),
-      type: ['Saint Score', 'log2FC', 'id'].includes(header)
-        ? 'number'
-        : 'string',
-      headerName: capitalize(header),
-      headerClassName: 'grid-header',
-      width: header === 'id' ? 50 : 100
-    } as SaintDisplayColumn
-  })
+  const columns = header
+    .filter((header) => header != 'id')
+    .map((header) => {
+      return {
+        field: toCamelCase(header),
+        type: ['Saint Score', 'log2FC', 'id'].includes(header)
+          ? 'number'
+          : 'string',
+        headerName: capitalize(header),
+        headerClassName: 'grid-header',
+        width: header === 'id' ? 50 : 100
+      } as SaintDisplayColumn
+    })
   const rows = dataRows.map((row) => {
     return {
       id: row.id.toString(),
